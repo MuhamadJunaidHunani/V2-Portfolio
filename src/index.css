@@ -4,22 +4,34 @@
 
 
 :root {
-  --pric: #ffd000;
-  --secc: #ffffff00;
-
-  --ltxtc: #ffffff;
-  --txtc: #09090B;
+  --primary: #000000;
+  --secondary: #ededed;
+  --lBackground: #171717;
+  --lText: #a1a1a1;
+  --border: #ffffff36;
+  --accent: #4284b9;
   font-family: "Assistant";
 }
 
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-lBackground: var(--lBackground);
+  --color-lText: var(--lText);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+}
 
+.group:hover .translate-image {
+  transform: translateY(calc(-100% + 200px)) !important;
+}
 
 .HeroImageDropShadow {
-  filter: drop-shadow(0 0 20px #a49d7990);
+  filter: drop-shadow(0 0 200px #4284b9);
 }
 
 .HeadlineTextGradient {
-  background-image: linear-gradient(0deg, #000000, #363636 33%, #000000 67%);
+  background-image: linear-gradient(0deg, var(--color-secondary), var(--color-secondary)/20 33%, var(--color-secondary) 67%);
 }
 
 .LiftedText {
@@ -27,7 +39,7 @@
 }
 
 .CustomShadow {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
 
 .HeroBgGrid {

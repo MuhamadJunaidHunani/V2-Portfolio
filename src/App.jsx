@@ -1,5 +1,6 @@
 import Header from "./Components/Layout/Header";
 import AboutMe from "./Components/Sections/AboutMe";
+import CompanySlider from "./Components/Sections/CompanySlider";
 import GTA from "./Components/Sections/GTA";
 import Hero from "./Components/Sections/Hero";
 import SmoothScroll from "./Components/UI/SmoothScroll";
@@ -13,9 +14,10 @@ function App() {
 
         {/* <GTA /> */}
         <Header />
-        <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div>
+        {/* <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div> */}
 
         <Hero />
+        <CompanySlider/>
         <AboutMe />
       </SmoothScroll>
     </>
