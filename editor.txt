@@ -1,0 +1,378 @@
+// React Image Editor - Single-file App (App.jsx)
+// Features: Upload, Filters (brightness, contrast, saturate, invert), Crop, Resize, Type converter (png/jpg/webp), Background remover (color-key + API option)
+// Notes:
+// 1) To run: create a React app (e.g. with create-react-app), replace src/App.jsx with this file, and install dependencies:
+//    npm install react-cropper cropperjs file-saver
+// 2) This example uses internal CSS and vanilla canvas operations. It includes a simple color-based background remover (works best on solid backgrounds).
+// 3) For production-grade background removal use an external API (remove.bg or others). See the README section at the bottom of this file for integration notes.
+
+import React, { useRef, useState, useEffect } from 'react';
+import { saveAs } from 'file-saver';
+import Cropper from 'react-cropper';
+// import 'cropperjs/dist/cropper.css';
+
+export default function App() {
+  const [fileSrc, setFileSrc] = useState(null);
+  const [img, setImg] = useState(null); // HTMLImageElement
+  const [filterValues, setFilterValues] = useState({ brightness: 100, contrast: 100, saturate: 100, invert: 0 });
+  const [format, setFormat] = useState('image/png');
+  const [quality, setQuality] = useState(0.92);
+  const [targetSize, setTargetSize] = useState({ width: 0, height: 0 });
+  const [showCropper, setShowCropper] = useState(false);
+  const [bgTolerance, setBgTolerance] = useState(30);
+  const [bgSample, setBgSample] = useState(null);
+  const [message, setMessage] = useState('');
+
+  const imgRef = useRef(null);
+  const canvasRef = useRef(null);
+  const cropperRef = useRef(null);
+
+  useEffect(() => {
+    if (!img) return;
+    // default target size to image natural size
+    setTargetSize({ width: img.naturalWidth, height: img.naturalHeight });
+    drawToCanvas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [img]);
+
+  useEffect(() => {
+    if (!img) return;
+    drawToCanvas();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterValues]);
+
+  function handleFile(e) {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    setFileSrc(url);
+
+    const image = new Image();
+    image.crossOrigin = 'anonymous';
+    image.onload = () => setImg(image);
+    image.src = url;
+  }
+
+  function buildCssFilter() {
+    const { brightness, contrast, saturate, invert } = filterValues;
+    return `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) invert(${invert}%)`;
+  }
+
+  function drawToCanvas(cropCanvas = null) {
+    const canvas = canvasRef.current;
+    if (!canvas || (!img && !cropCanvas)) return;
+
+    const source = cropCanvas || img;
+    const w = targetSize.width || (source.naturalWidth ?? source.width);
+    const h = targetSize.height || (source.naturalHeight ?? source.height);
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    // apply css-like filters when drawing
+    ctx.clearRect(0, 0, w, h);
+    ctx.filter = buildCssFilter();
+    // draw image scaled to target
+    if (cropCanvas) {
+      ctx.drawImage(cropCanvas, 0, 0, w, h);
+    } else {
+      ctx.drawImage(source, 0, 0, w, h);
+    }
+    ctx.filter = 'none';
+  }
+
+  async function openCropper() {
+    if (!img) return setMessage('Please upload an image first');
+    setShowCropper(true);
+  }
+
+  function applyCrop() {
+    const cropper = cropperRef.current?.cropper;
+    if (!cropper) return;
+    const croppedCanvas = cropper.getCroppedCanvas();
+    // set target size to cropped size
+    setTargetSize({ width: croppedCanvas.width, height: croppedCanvas.height });
+    drawToCanvas(croppedCanvas);
+    setShowCropper(false);
+  }
+
+  function handleResizeChange(e) {
+    const { name, value } = e.target;
+    setTargetSize(prev => ({ ...prev, [name]: Number(value) }));
+  }
+
+  function handleFilterChange(e) {
+    const { name, value } = e.target;
+    setFilterValues(prev => ({ ...prev, [name]: Number(value) }));
+  }
+
+  function convertFormatToMime(ext) {
+    switch (ext) {
+      case 'png': return 'image/png';
+      case 'jpg': case 'jpeg': return 'image/jpeg';
+      case 'webp': return 'image/webp';
+      default: return 'image/png';
+    }
+  }
+
+  async function exportImage() {
+    const canvas = canvasRef.current;
+    if (!canvas) return setMessage('No image to export');
+    const mime = format;
+    // toDataURL respects alpha
+    const dataUrl = canvas.toDataURL(mime, quality);
+    // convert dataURL to blob
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    const ext = mime === 'image/png' ? 'png' : mime === 'image/jpeg' ? 'jpg' : 'webp';
+    saveAs(blob, `edited-image.${ext}`);
+    setMessage('Exported!');
+  }
+
+  function setFormatFromSelect(e) {
+    const val = e.target.value;
+    setFormat(convertFormatToMime(val));
+  }
+
+  function sampleBgColorFromCanvas(xPercent = 5, yPercent = 5) {
+    // sample from top-left corner by default
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const sx = Math.floor(canvas.width * (xPercent / 100));
+    const sy = Math.floor(canvas.height * (yPercent / 100));
+    const data = ctx.getImageData(sx, sy, 1, 1).data;
+    setBgSample({ r: data[0], g: data[1], b: data[2] });
+    setMessage(`Sampled color rgb(${data[0]}, ${data[1]}, ${data[2]})`);
+  }
+
+  function pickBgFromClick(e) {
+    // click on canvas to sample color
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
+    const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
+    const data = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+    setBgSample({ r: data[0], g: data[1], b: data[2] });
+    setMessage(`Sampled color rgb(${data[0]}, ${data[1]}, ${data[2]})`);
+  }
+
+  function colorDistance(a, b) {
+    // euclidean in rgb space
+    return Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+  }
+
+  function removeBackgroundByColor() {
+    const canvas = canvasRef.current;
+    if (!canvas || !bgSample) return setMessage('Canvas or sampled color missing');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const imgData = ctx.getImageData(0, 0, w, h);
+    const data = imgData.data;
+    const tol = Number(bgTolerance);
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const dist = Math.sqrt((r - bgSample.r) ** 2 + (g - bgSample.g) ** 2 + (b - bgSample.b) ** 2);
+      if (dist < tol) {
+        data[i + 3] = 0; // transparent
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+    setMessage('Background removed (color key).');
+  }
+
+  async function removeBackgroundViaAPI(apiKey, endpoint = 'https://api.remove.bg/v1.0/removebg') {
+    // Example integration with remove.bg API (requires server-side proxy or direct client key - careful with exposing keys)
+    setMessage('Starting API background remove...');
+    try {
+      const canvas = canvasRef.current;
+      const dataUrl = canvas.toDataURL('image/png');
+      const blob = await (await fetch(dataUrl)).blob();
+      const form = new FormData();
+      form.append('image_file', blob, 'image.png');
+      form.append('size', 'auto');
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'X-Api-Key': apiKey,
+        },
+        body: form,
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(`API Error: ${res.status} ${txt}`);
+      }
+      const outBlob = await res.blob();
+      // load result into image and draw
+      const url = URL.createObjectURL(outBlob);
+      const image = new Image();
+      image.crossOrigin = 'anonymous';
+      image.onload = () => {
+        setTargetSize({ width: image.naturalWidth, height: image.naturalHeight });
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        ctx.drawImage(image, 0, 0);
+        setMessage('Background removed via API and applied to canvas.');
+      };
+      image.src = url;
+    } catch (err) {
+      console.error(err);
+      setMessage('API background removal failed: ' + err.message);
+    }
+  }
+
+  return (
+    <div style={styles.app}>
+      <h1 style={styles.h1}>React Image Editor — Upload & Edit</h1>
+
+      <div style={styles.controlsRow}>
+        <input type="file" accept="image/*" onChange={handleFile} />
+        <button onClick={() => { if (fileSrc) { const image = new Image(); image.crossOrigin='anonymous'; image.onload=()=>{setImg(image)}; image.src=fileSrc; }}}>Reload</button>
+        <button onClick={openCropper} disabled={!img}>Crop</button>
+        <button onClick={() => { if (img) { setTargetSize({ width: img.naturalWidth, height: img.naturalHeight }); drawToCanvas(); }}}>Reset Size</button>
+      </div>
+
+      <div style={styles.editorRow}>
+        <div style={styles.canvasColumn}>
+          <div style={{ marginBottom: 8 }}>
+            <canvas ref={canvasRef} style={styles.canvas} onClick={pickBgFromClick} title="Click to sample background color" />
+          </div>
+
+          <div style={styles.row}>
+            <label>Width</label>
+            <input type="number" name="width" value={targetSize.width || ''} onChange={handleResizeChange} style={styles.smallInput} />
+            <label>Height</label>
+            <input type="number" name="height" value={targetSize.height || ''} onChange={handleResizeChange} style={styles.smallInput} />
+            <button onClick={() => drawToCanvas()}>Apply Resize</button>
+          </div>
+
+          <div style={styles.row}>
+            <label>Export format</label>
+            <select onChange={setFormatFromSelect} defaultValue="png">
+              <option value="png">PNG</option>
+              <option value="jpg">JPG</option>
+              <option value="webp">WEBP</option>
+            </select>
+            <label>Quality</label>
+            <input type="range" min="0.1" max="1" step="0.01" value={quality} onChange={(e)=>setQuality(Number(e.target.value))} />
+            <button onClick={exportImage}>Export</button>
+          </div>
+
+          <div style={{ marginTop: 10 }}>
+            <strong>Background Remover</strong>
+            <div style={styles.row}>
+              <button onClick={() => sampleBgColorFromCanvas(5,5)}>Auto-sample corner color</button>
+              <label>Tolerance</label>
+              <input type="range" min="0" max="200" value={bgTolerance} onChange={(e)=>setBgTolerance(Number(e.target.value))} />
+              <button onClick={removeBackgroundByColor}>Remove BG (color-key)</button>
+            </div>
+            <div style={styles.row}>
+              <label>Or use API (remove.bg or similar)</label>
+              <input placeholder="Enter API key" id="apiKeyInput" style={styles.input} />
+              <button onClick={() => { const key = document.getElementById('apiKeyInput').value.trim(); if (key) removeBackgroundViaAPI(key); else setMessage('Please enter API key'); }}>Use API</button>
+            </div>
+            <div style={styles.row}>
+              <small>Sampled color: {bgSample ? `rgb(${bgSample.r}, ${bgSample.g}, ${bgSample.b})` : 'none'}</small>
+            </div>
+          </div>
+
+        </div>
+
+        <div style={styles.controlsColumn}>
+          <h3>Filters</h3>
+          <div style={styles.filterRow}><label>Brightness {filterValues.brightness}%</label><input type="range" name="brightness" min="0" max="200" value={filterValues.brightness} onChange={handleFilterChange} /></div>
+          <div style={styles.filterRow}><label>Contrast {filterValues.contrast}%</label><input type="range" name="contrast" min="0" max="200" value={filterValues.contrast} onChange={handleFilterChange} /></div>
+          <div style={styles.filterRow}><label>Saturate {filterValues.saturate}%</label><input type="range" name="saturate" min="0" max="300" value={filterValues.saturate} onChange={handleFilterChange} /></div>
+          <div style={styles.filterRow}><label>Invert {filterValues.invert}%</label><input type="range" name="invert" min="0" max="100" value={filterValues.invert} onChange={handleFilterChange} /></div>
+
+          <hr style={{ margin: '12px 0' }} />
+          <h3>Cropper</h3>
+          <p>Open cropper to select area, then click "Apply Crop".</p>
+
+          <hr style={{ margin: '12px 0' }} />
+          <h3>Quick Actions</h3>
+          <button onClick={() => { setFilterValues({ brightness:100, contrast:100, saturate:100, invert:0 }); setMessage('Filters reset'); }}>Reset Filters</button>
+          <button onClick={() => { if (img) { setTargetSize({ width: 800, height: 800 }); drawToCanvas(); }}}>Resize to 800x800</button>
+
+          <div style={{ marginTop: 20 }}>
+            <strong>Status:</strong> <span>{message}</span>
+          </div>
+        </div>
+      </div>
+
+      {showCropper && img && (
+        <div style={styles.cropperModal}>
+          <div style={styles.cropperInner}>
+            <Cropper
+              src={fileSrc}
+              style={{ height: 400, width: '100%' }}
+              // Cropper.js options
+              initialAspectRatio={NaN}
+              guides={true}
+              viewMode={1}
+              background={true}
+              responsive={true}
+              autoCropArea={0.8}
+              ref={cropperRef}
+            />
+            <div style={{ marginTop: 8 }}>
+              <button onClick={applyCrop}>Apply Crop</button>
+              <button onClick={() => setShowCropper(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <footer style={{ marginTop: 20 }}>
+        <small>Tip: Click the canvas to sample a background pixel for the color-key remover. Use the API option for more advanced removal (remove.bg example supported).</small>
+      </footer>
+
+    </div>
+  );
+}
+
+const styles = {
+  app: { fontFamily: 'Inter, Arial, sans-serif', padding: 20, maxWidth: 1100, margin: '0 auto' },
+  h1: { fontSize: 22, marginBottom: 12 },
+  controlsRow: { display: 'flex', gap: 8, alignItems: 'center', marginBottom: 12 },
+  editorRow: { display: 'flex', gap: 20 },
+  canvasColumn: { flex: 1 },
+  controlsColumn: { width: 340 },
+  canvas: { width: '100%', height: 'auto', border: '1px solid #ddd', cursor: 'crosshair', background: '#fff' },
+  row: { display: 'flex', gap: 8, alignItems: 'center', marginTop: 8 },
+  smallInput: { width: 90 },
+  input: { width: 200 },
+  filterRow: { display: 'flex', flexDirection: 'column', marginBottom: 8 },
+  cropperModal: { position: 'fixed', left: 0, top: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  cropperInner: { background: '#fff', padding: 12, borderRadius: 8, width: '80%', maxWidth: 900 }
+};
+
+/*
+README / Integration notes
+
+1) Setup
+ - npx create-react-app my-image-editor
+ - cd my-image-editor
+ - npm install react-cropper cropperjs file-saver
+ - Replace src/App.jsx with this file and run npm start
+
+2) Background removal
+ - This project includes a basic color-key background remover (click canvas to sample a color or auto-sample corner).
+ - For robust removal use a service like remove.bg. To integrate remove.bg (or similar), you need an API key:
+   - The example function removeBackgroundViaAPI() shows how to call remove.bg's API. Be careful: calling their API directly from client exposes the API key to users. Prefer a server-side proxy.
+
+3) Extensions & Improvements you can implement
+ - Add undo/redo stack
+ - Add multiple layers and text stickers
+ - Use WebGL-based filters for better performance
+ - Add cropping presets, rotate, flip, aspect locking
+ - Integrate an offline WASM U^2-Net model for client-side background removal (advanced)
+
+4) Important notes
+ - Browser support: canvas.toDataURL('image/webp') is not supported in very old browsers.
+ - Cross-origin images require CORS headers to be present for pixel access. If you load images from remote servers without CORS you'll get tainted canvas errors.
+
+*/
+`

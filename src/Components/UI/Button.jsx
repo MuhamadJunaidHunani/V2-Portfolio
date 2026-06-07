@@ -16,7 +16,7 @@ const Button = ({
     const variantsClasses = {
         primary: `border-[1.5px] border-primary bg-primary text-secondary`,
         secondary: `border-[1.5px] border-secondary bg-secondary text-primary`,
-        accent: `border-[1.5px] border-accent bg-accent text-primary`,
+        accent: `border-[1.5px] border-accent bg-accent text-white font-bold`,
         danger: `border-[1.5px] border-red-600 bg-red-600 text-white`,
         white: `border-[1.5px] border-white bg-white text-red-600`,
         warn: `border-[1.5px] border-yellow-600 bg-yellow-600 text-white`,
@@ -28,13 +28,14 @@ const Button = ({
 
     const sizeClasses = {
         large: `py-2 px-6 text-lg font-semibold`,
-        medium: `!min-h-10 px-6 text-[15px]/[15px] font-medium`,
+        medium: `!min-h-10 px-6 text-[16px]/[16px] font-semibold`,
         small: `!h-8 px-4 w-max text-sm font-medium`,
     }
 
     const cornerClasses = {
         none: `rounded-none`,
         small: `rounded-md`,
+        medium: `rounded-lg`,
         full: `rounded-full`
     }
 

@@ -1,6 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 @import "tailwindcss";
-
-
 
 
 :root {
@@ -9,8 +8,14 @@
   --lBackground: #171717;
   --lText: #a1a1a1;
   --border: #ffffff36;
-  --accent: #4284b9;
-  font-family: "Assistant";
+  --accent: #b744d8;
+}
+
+.fontBric{
+  font-family: "Bricolage Grotesque", "Inter" ;
+}
+* {
+  font-family: "Bricolage Grotesque", "Inter" ;
 }
 
 @theme inline {
@@ -31,11 +36,16 @@
 }
 
 .HeadlineTextGradient {
-  background-image: linear-gradient(0deg, var(--color-secondary), var(--color-secondary)/20 33%, var(--color-secondary) 67%);
+  background-image: linear-gradient(
+    0deg,
+    var(--color-secondary),
+    var(--color-secondary) / 20 33%,
+    var(--color-secondary) 67%
+  );
 }
 
 .LiftedText {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3)
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .CustomShadow {
@@ -45,4 +55,8 @@
 .HeroBgGrid {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(0, 0, 0, 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
   mask-image: linear-gradient(180deg, #fff 1%, transparent 90%);
+}
+
+.bgHero {
+  background-image: url("./assets/BrandingBackground.png");
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Button from "../UI/Button";
+import Profileimage from '../../assets/ProfileImage.png';
+
 
 const Header = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -19,28 +21,32 @@ const Header = () => {
     }, []);
 
     return (
-        <header
-            className={`h-[65px] fixed top-[20px] w-full z-50 flex justify-center`}
-        >
-            <div
-                className={`w-[50%] transition-all duration-500 rounded-2xl ${isScrolled ? "bg-[#ffffffbe] backdrop-blur-sm text-black CustomShadow" : "bg-[--secc] text-[--txtc]"}`}
-            >
+        <header className={`h-[65px] fixed top-[20px] w-full z-50 flex justify-center`}>
 
-                <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-                    {/* Logo */}
-                    <div className="text-2xl font-bold text-accent">Logo .</div>
+            <div className={` transition-all duration-500 rounded-xl border border-gray-200 ${isScrolled ? "bg-[#ffffffe1] backdrop-blur-sm text-black w-[90%]" : "bg-white/60 text-[--txtc] w-[90%]"}`}>
 
-                    {/* Links */}
-                    <nav className="hidden md:flex space-x-6">
-                        <a href="#link1" className="hover:text-gray-400">Link 1</a>
-                        <a href="#link2" className="hover:text-gray-400">Link 2</a>
-                        <a href="#link3" className="hover:text-gray-400">Link 3</a>
-                        <a href="#link4" className="hover:text-gray-400">Link 4</a>
+                <div className="container mx-auto px-4 h-full flex justify-between items-center">
+
+                    <div className="flex items-center gap-2">
+                        <img src={Profileimage} alt="Logo" className="rounded-full w-[45px] border border-gray-300" />
+
+                        <div className="flex flex-col text-left gap-1">
+                            <p className="font-semibold text-lg leading-[18px]">Junaid Hunani</p>
+                            <p className="text-sm leading-[14px]">AI Software Developer</p>
+                        </div>
+                    </div>
+
+                    <nav className="hidden md:flex space-x-6 text-gray-700">
+                        <a href="#link2" className="hover:text-gray-500 font-medium text-black">About</a>
+                        <a href="#link2" className="hover:text-gray-500">Projects</a>
+                        <a href="#link3" className="hover:text-gray-500">Services</a>
+                        <a href="#link4" className="hover:text-gray-500">Testimonials</a>
+                        <a href="#link4" className="hover:text-gray-500">Contact</a>
                     </nav>
 
-                    {/* Button */}
-                    <Button className={'!bg-transparent'} />
-
+                    <div>
+                        <Button size="medium" label="Book 30-min Call" className={''} corner="medium" />
+                    </div>
                     {/* Hamburger Icon */}
                     <div className="md:hidden text-2xl cursor-pointer" onClick={toggleDrawer}>
                         {isDrawerOpen ? <FaTimes /> : <FaBars />}

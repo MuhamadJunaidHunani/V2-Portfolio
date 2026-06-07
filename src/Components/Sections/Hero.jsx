@@ -1,33 +1,39 @@
 import { FaStar } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import Button from "../UI/Button";
+import bg from '../../assets/BrandingBackground.png';
+import { HiArrowUpRight } from "react-icons/hi2";
+import { RxArrowTopRight } from "react-icons/rx";
+import { FiArrowDownLeft } from "react-icons/fi";
 
 const Hero = () => {
   return (
-    <div className="bg-primary h-[calc(100dvh_-_0px)]  flex items-end text-center relative">
-        <div className="fixed top-[200px] left-1/2 -translate-x-1/2  bg-accent w-[600px] h-[100px] z-[0] blur-[100px]"></div>
-
-      <div className="relative z-10 mx-auto flex flex-col justify-center items-center h-full pt-[80px]">
-        <h1 className="text-[100px]  leading-[110px] tracking-[2.4px] uppercase font-[Anton]">
-          <span className="text-transparent  bg-clip-text HeadlineTextGradient">I BUILD</span>
-          <span className="text-accent CustomShadow font-light  px-[20px] italic ">Pixel-Perfect</span>
-          <br />
-          <span className="text-transparent  bg-clip-text HeadlineTextGradient">CUSTOM WEB SITES</span>
-        </h1>
-        <p className="text-lText font-medium mt-8 text-xl">
-          High-quality <span className="text-secondary">React</span>, <span className="text-secondary">Next</span> and <span className="text-secondary">Angular JS</span> websites built with care and skill.
-        </p>
-        <div className="flex items-center justify-center mt-6 space-x-4">
-          <a href="https:\\www.linkedin.com/in/m-junaid-hunani-9756972a6" target="_blank" className="flex items-center cursor-pointer hover:opacity-85  transition ">
-            <img src="./linkedin.png" alt="" className="w-[40px]" />
-            <div className="flex flex-col items-start justify-start gap-1">
-              <span className="text-black -mt-1 text-[18px]/[18px] font-medium ">M.Junaid Hunani</span>
-              <span className="text-[#007AB5] text-[13px]/[13px]">1900+ Followers</span>
-            </div>
-          </a>
-          <Button />
+    <div className="bg-white h-screen max-w-screen pt-16 overflow-hidden bgHero bg-cover   flex items-center text-center relative">
+      <div className="absolute top-[500px] left-[50%] -translate-x-1/2  bg-[#b744d8] w-[300px] h-[300px] opacity-50 blur-[160px]"></div>
+      {/* <div className="absolute top-[200px] left-[90%] -translate-x-1/2  bg-[#b744d8] w-[300px] h-[300px] opacity-40 blur-[150px]"></div> */}
+      <div className="flex flex-col gap-5 w-full items-center justify-center">
+        <div className="flex items-center gap-1 text-sm py-1 bg-white rounded-full px-4 border border-gray-200 text-gray-600">
+          <img src="/linkedin.png" alt="linkdin" className="w-[18px]" />
+          Trusted by 2k+ on linkedin
         </div>
+        <h1 className="text-center max-w-[900px]">
+          <span className="text-[65px]/[75px] font-bold ">Turn your Software & Funnels </span>
+          <span className="text-[65px]/[75px] font-bold text-[#b744d8]">Into AI-Powered System</span>
+        </h1>
+
+        <p className="text-lg text-gray-600 max-w-[900px]">
+          I help businesses and entrepreneurs leverage the power of AI to automate their software and funnels, saving them time and money while increasing efficiency and profitability.
+        </p>
+
+        <button className="flex items-center cursor-pointer group justify-center gap-2 bg-linear-to-b rounded-full to-accent from-accent/70 text-white font-medium pl-4 pr-1 py-1 ">
+          Book a 30-min Call
+          <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white text-black/60 text-[22px] leading-none">
+            <RxArrowTopRight className="absolute transition-all duration-300 group-hover:-top-full group-hover:-right-full top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2" strokeWidth={0.4} />
+            <RxArrowTopRight className="absolute transition-all duration-300 top-full right-full group-hover:top-1/2 group-hover:right-1/2 group-hover:translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={0.4} />
+          </span>
+        </button>
       </div>
+      
     </div>
   );
 };
