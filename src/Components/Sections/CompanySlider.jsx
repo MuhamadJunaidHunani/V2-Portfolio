@@ -25,9 +25,9 @@ const CompanySlider = () => {
     <div className='flex flex-col p-[40px] bg-white w-full gap-10'>
 
       <h1>
-        <span className='text-[30px]/[40px] font-bold'>My Services</span>
+        <span className='text-[30px]/[40px] font-bold'>Experienced in a Wide</span>
         <br />
-        <span className='text-[30px]/[40px] font-bold text-[#b744d8]'>What I Can Do For You</span>
+        <span className='text-[30px]/[40px] font-bold text-[#b744d8]'> Range of Services</span>
       </h1>
 
       <div className='grid grid-cols-3 gap-7'>

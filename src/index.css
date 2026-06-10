@@ -60,3 +60,7 @@
 .bgHero {
   background-image: url("./assets/BrandingBackground.png");
 }
+
+body.no-scroll {
+  overflow: hidden;
+}

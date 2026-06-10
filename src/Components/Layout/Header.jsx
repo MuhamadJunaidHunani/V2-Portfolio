@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Button from "../UI/Button";
 import Profileimage from '../../assets/ProfileImage.png';
+import { RxArrowTopRight } from "react-icons/rx";
 
 
 const Header = () => {
@@ -45,8 +46,13 @@ const Header = () => {
                     </nav>
 
                     <div>
-                        <Button size="medium" label="Book 30-min Call" className={''} corner="medium" />
-                    </div>
+                        <button className="flex items-center cursor-pointer group justify-center gap-2 bg-linear-to-b rounded-full to-accent from-accent/70 text-white font-medium pl-4 pr-1 py-1 ">
+                            Book a 30-min Call
+                            <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white text-black/60 text-[22px] leading-none">
+                                <RxArrowTopRight className="absolute transition-all duration-300 group-hover:-top-full group-hover:-right-full top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2" strokeWidth={0.4} />
+                                <RxArrowTopRight className="absolute transition-all duration-300 top-full right-full group-hover:top-1/2 group-hover:right-1/2 group-hover:translate-x-1/2 group-hover:-translate-y-1/2" strokeWidth={0.4} />
+                            </span>
+                        </button> </div>
                     {/* Hamburger Icon */}
                     <div className="md:hidden text-2xl cursor-pointer" onClick={toggleDrawer}>
                         {isDrawerOpen ? <FaTimes /> : <FaBars />}
