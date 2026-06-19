@@ -1,49 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
+import { PiMouseScrollLight } from "react-icons/pi";
 
 export default function LaptopWebsiteMockup() {
     const screenRef = useRef(null);
     const imageRef = useRef(null);
+    const scrollYRef = useRef(0);
+    const maxScrollRef = useRef(0);
     const [scrollY, setScrollY] = useState(0);
-    const [maxScroll, setMaxScroll] = useState(0);
 
     useEffect(() => {
         const screen = screenRef.current;
         if (!screen) return;
 
         const handleWheel = (e) => {
-            e.preventDefault();
+            e.preventDefault(); // always called, even at boundaries
 
-            setScrollY((prev) => {
-                const next = prev + e.deltaY;
-                return Math.min(Math.max(next, 0), maxScroll);
-            });
+            const next = Math.min(
+                Math.max(scrollYRef.current + e.deltaY, 0),
+                maxScrollRef.current
+            );
+
+            scrollYRef.current = next;
+            setScrollY(next);
         };
 
         screen.addEventListener("wheel", handleWheel, { passive: false });
-
-        return () => {
-            screen.removeEventListener("wheel", handleWheel);
-        };
-    }, [maxScroll]);
-
-    const handleWheel = (e) => {
-        e.preventDefault();
-        setScrollY((prev) => {
-            const next = prev + e.deltaY;
-            return Math.min(Math.max(next, 0), maxScroll);
-        });
-    };
+        return () => screen.removeEventListener("wheel", handleWheel);
+    }, []); // ✅ empty deps — registers once, never re-registers
 
     return (
-        <div className="flex items-center justify-center p-6">
-            <div className="relative w-[400px] max-w-5xl">
+        <div className="flex flex-col gap-2 items-center justify-center group ">
+            <div className=" border-accent px-2 bg-accent/80 flex text-white text-sm border rounded-lg z-30  items-center gap-1">
+                <PiMouseScrollLight />
+                <p>scrollable</p>
+            </div>
+            <div className="relative w-full max-w-5xl">
                 <div className="relative">
                     <div
                         ref={screenRef}
-                        // onWheel={handleWheel}
+                        data-lenis-prevent
                         className="absolute overflow-hidden z-20"
                         style={{
-                            left: "6.3%",
+                            left: "6.2%",
                             top: "1%",
                             width: "87.4%",
                             height: "86.5%",
@@ -52,13 +50,16 @@ export default function LaptopWebsiteMockup() {
                     >
                         <img
                             ref={imageRef}
-                            src="/project.png"
+                            src="/evolvens.com_.png"
                             alt="Website preview"
                             onLoad={() => {
                                 const screen = screenRef.current;
                                 const img = imageRef.current;
                                 if (screen && img) {
-                                    setMaxScroll(Math.max(0, img.scrollHeight - screen.clientHeight));
+                                    maxScrollRef.current = Math.max(
+                                        0,
+                                        img.scrollHeight - screen.clientHeight
+                                    );
                                 }
                             }}
                             className="absolute top-0 left-0 w-full h-auto max-w-none block"

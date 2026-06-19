@@ -8,6 +8,7 @@ const SmoothScroll = ({ children }) => {
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth easing
       smooth: true,
+      prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
     });
 
     const raf = (time) => {
