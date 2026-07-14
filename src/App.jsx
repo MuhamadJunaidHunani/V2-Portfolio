@@ -1,36 +1,39 @@
 import Header from "./Components/Layout/Header";
-import AboutMe from "./Components/Sections/AboutMe";
-import CompanySlider from "./Components/Sections/CompanySlider";
-import GTA from "./Components/Sections/GTA";
+import Footer from "./Components/Layout/Footer";
+import About from "./Components/Sections/About";
+import Services from "./Components/Sections/Services";
+import TechStack from "./Components/Sections/TechStack";
 import Hero from "./Components/Sections/Hero";
 import Projects from "./Components/Sections/Projects";
 import Stats from "./Components/Sections/Stats";
-import ProfileUI from "./Components/UI/ProfileUI";
+import Process from "./Components/Sections/Process";
+import Testimonials from "./Components/Sections/Testimonials";
+import FAQ from "./Components/Sections/FAQ";
+import Contact from "./Components/Sections/Contact";
 import SmoothScroll from "./Components/UI/SmoothScroll";
 
 function App() {
-
-
   return (
     <>
       <SmoothScroll>
+        <div id="top" className="relative">
+          <Header />
 
-        {/* <GTA /> */}
+          <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div>
+{/* claude --resume 7102abb3-54fc-402a-b4bf-15a51b97eb63 */}
+          <Hero />
 
-        {/* <ProfileUI/> */}
-
-        <Header />
-
-        <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div>
-
-        <Hero />
-
-        <CompanySlider />
-        <Stats/>
-        <Projects />
-
-        {/* <AboutMe /> */}
-
+          <About />
+          <Services />
+          <TechStack />
+          <Projects />
+          <Stats />
+          <Process />
+          <Testimonials />
+          <FAQ />
+          <Contact />
+          <Footer />
+        </div>
       </SmoothScroll>
     </>
   );

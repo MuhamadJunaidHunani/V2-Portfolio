@@ -64,4 +64,54 @@
 
 body.no-scroll {
   overflow: hidden;
+}
+
+[id] {
+  scroll-margin-top: 110px;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  padding: 6px 14px;
+  border-radius: 999px;
+  width: max-content;
+}
+
+.kicker span.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-x 28s linear infinite;
+}
+
+.marquee-wrap:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.dashed-line {
+  background-image: linear-gradient(to bottom, color-mix(in srgb, var(--primary) 18%, transparent) 50%, transparent 50%);
+  background-size: 2px 12px;
+  background-repeat: repeat-y;
 } 

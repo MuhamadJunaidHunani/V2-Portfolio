@@ -11,6 +11,8 @@ const SmoothScroll = ({ children }) => {
       prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
     });
 
+    window.lenis = lenis;
+
     const raf = (time) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -18,7 +20,10 @@ const SmoothScroll = ({ children }) => {
 
     requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    return () => {
+      window.lenis = null;
+      lenis.destroy();
+    };
   }, []);
 
   return <>{children}</>;
