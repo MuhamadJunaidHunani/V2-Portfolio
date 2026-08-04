@@ -32,7 +32,7 @@ const Header = () => {
     return (
         <header className="h-[65px] fixed top-[20px] w-full z-50 flex justify-center px-4">
 
-            <div className="transition-all duration-500 rounded-xl border border-gray-200 bg-white/80 backdrop-blur-md text-black w-full max-w-[1100px] shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
+            <div className="transition-all duration-500 rounded-xl  backdrop-blur-md text-white w-full max-w-[1100px] shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
 
                 <div className="mx-auto px-4 h-[65px] flex justify-between items-center">
 
@@ -45,7 +45,7 @@ const Header = () => {
                         </div>
                     </a>
 
-                    <nav className="hidden md:flex items-center gap-6 text-[14.5px] text-gray-600">
+                    <nav className="hidden md:flex items-center gap-6 text-[14.5px] text-gray-300">
                         {navLinks.map((link) => (
                             <a
                                 key={link.id}

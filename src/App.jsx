@@ -20,7 +20,6 @@ function App() {
           <Header />
 
           <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div>
-{/* claude --resume 7102abb3-54fc-402a-b4bf-15a51b97eb63 */}
           <Hero />
 
           <About />
