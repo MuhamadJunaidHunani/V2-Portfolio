@@ -58,7 +58,7 @@ const Testimonials = () => {
 
         <div className="flex flex-col items-center text-center gap-5">
           <SectionLabel>Client Testimonials</SectionLabel>
-          <h2 className="text-[32px]/[40px] md:text-[42px]/[50px] font-bold text-gray-900 max-w-2xl">
+          <h2 className="text-[34px]/[42px] md:text-[48px]/[56px] font-bold text-gray-900 max-w-2xl">
             Trusted by founders <span className="text-accent">who need results</span>
           </h2>
           <p className="text-[17px]/[28px] text-gray-600 max-w-xl">

@@ -13,9 +13,9 @@ const HeroShowcase = () => {
 
   return (
     <section className="relative bg-white py-14 md:py-16 border-b border-gray-100 overflow-hidden">
-      <p className="text-center text-sm font-medium text-gray-400 tracking-wide uppercase mb-8">
+      {/* <p className="text-center text-sm font-medium text-gray-400 tracking-wide uppercase mb-8">
         A few hero sections I&rsquo;ve designed
-      </p>
+      </p> */}
 
       <div className="marquee-wrap relative">
         <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white to-transparent z-10"></div>

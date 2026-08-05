@@ -39,7 +39,7 @@ const FAQ = () => {
 
         <div className="flex flex-col items-center text-center gap-5">
           <SectionLabel>FAQ</SectionLabel>
-          <h2 className="text-[32px]/[40px] md:text-[42px]/[50px] font-bold text-gray-900 max-w-xl">
+          <h2 className="text-[34px]/[42px] md:text-[48px]/[56px] font-bold text-gray-900 max-w-xl">
             Questions you might <span className="text-accent">be thinking</span>
           </h2>
         </div>

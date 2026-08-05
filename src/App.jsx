@@ -8,6 +8,7 @@ import HeroShowcase from "./Components/Sections/HeroShowcase";
 import Projects from "./Components/Sections/Projects";
 import Stats from "./Components/Sections/Stats";
 import Process from "./Components/Sections/Process";
+import Transformation from "./Components/Sections/Transformation";
 import Testimonials from "./Components/Sections/Testimonials";
 import FAQ from "./Components/Sections/FAQ";
 import Contact from "./Components/Sections/Contact";
@@ -30,6 +31,7 @@ function App() {
           <Projects />
           <Stats />
           <Process />
+          <Transformation />
           <Testimonials />
           <FAQ />
           <Contact />
