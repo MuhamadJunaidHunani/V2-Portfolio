@@ -6,46 +6,53 @@ import SectionLabel from "../UI/SectionLabel";
 
 const projects = [
   {
-    name: "Abstrax",
-    tagline: "Flavor Drink — Ecommerce",
-    tags: ["Next JS", "Ecommerce"],
-    description: "A bold DTC storefront for a terpene supplement brand — animated product showcases, a custom cart flow, and a wholesale funnel built to convert.",
-    src: "/projects/abstrax.png",
+    name: "Akurai",
+    tagline: "Data Analytics SaaS",
+    tags: ["SaaS", "Analytics"],
+    description: "A dark, enterprise-grade landing page for a data intelligence platform — bold typography, animated gradient visuals, and social proof built to convert data teams.",
+    src: "/hero-sections/hero-1.png",
   },
   {
-    name: "Truckin Digital",
-    tagline: "Fleet Management SaaS",
-    tags: ["SaaS", "Logistics"],
-    description: "A cloud platform that runs an entire trucking operation — dispatch, accounting, compliance, and driver/manager companion apps in one system.",
-    src: "/projects/truckin-digital.png",
+    name: "Nexora",
+    tagline: "AI Workflow Platform",
+    tags: ["SaaS", "AI Product"],
+    description: "A high-energy product page for an AI automation platform — glowing 3D visuals, live product stats, and a gradient-driven design system built to feel cutting-edge.",
+    src: "/hero-sections/hero-2.png",
   },
   {
-    name: "Porter & York",
-    tagline: "Premium Meat, Delivered",
+    name: "Vorax Motors",
+    tagline: "Performance Motorcycle Brand",
+    tags: ["Automotive", "Cinematic"],
+    description: "A cinematic showcase for a high-performance motorcycle brand — moody studio lighting, spec callouts, and an interactive 3D viewer built to sell the thrill.",
+    src: "/hero-sections/hero-3.png",
+  },
+  {
+    name: "Flowint",
+    tagline: "AI Automation Agency",
+    tags: ["Agency", "AI Product"],
+    description: "An agency landing page that visualizes automation itself — live workflow cards animate into an AI core, turning an abstract service into something you can watch happen.",
+    src: "/hero-sections/hero-4.png",
+  },
+  {
+    name: "Stay & Work",
+    tagline: "Modular Living Spaces",
+    tags: ["Real Estate", "Product"],
+    description: "A premium landing page for a modular housing company — a split-frame product render, editorial typography, and spec cards that sell craftsmanship at a glance.",
+    src: "/hero-sections/hero-5.png",
+  },
+  {
+    name: "Playtek",
+    tagline: "RC & Electronics Store",
     tags: ["Ecommerce", "DTC Brand"],
-    description: "An editorial-grade storefront for a butcher-direct meat brand — heavy on photography, built for a premium unboxing experience online.",
-    src: "/projects/porter-and-york.png",
+    description: "A product-first storefront for a premium RC and electronics brand — hero-lit product photography and a feature strip built to move units.",
+    src: "/hero-sections/hero-6.png",
   },
   {
-    name: "Hannan Fabrics",
-    tagline: "Luxury Textile Store",
-    tags: ["Ecommerce", "Shopify"],
-    description: "Where tradition meets modernity — a bilingual luxury fabric store with collections, a swatch library, and a checkout built for repeat buyers.",
-    src: "/projects/hannan-fabrics.png",
-  },
-  {
-    name: "Finsol",
-    tagline: "Treasury Analytics Dashboard",
-    tags: ["SaaS", "Dashboard"],
-    description: "A dark-mode financial dashboard tracking revenue, sales predictions, and team activity in real time — built for daily operational use.",
-    src: "/projects/finsol.png",
-  },
-  {
-    name: "Fiction Genie",
-    tagline: "AI Storytelling for Kids",
-    tags: ["AI Product", "EdTech"],
-    description: "An AI-powered platform that writes and illustrates personalized bedtime stories, with multi-language support and reading-progress insights for parents.",
-    src: "/projects/fiction-genie.png",
+    name: "Hyre",
+    tagline: "Hiring Platform for Startups",
+    tags: ["SaaS", "HR Tech"],
+    description: "A recruiting platform landing page built around trust — vetted-candidate cards with live ratings, social proof, and a single clear call to hire.",
+    src: "/hero-sections/hero-7.png",
   },
 ];
 
@@ -63,7 +70,7 @@ const Projects = () => {
             Real-world projects <span className="text-accent">I&rsquo;ve worked on</span>
           </h2>
           <p className="text-[17px]/[28px] text-gray-600 max-w-xl">
-            Six clients, six different problems — pick one and scroll inside to explore the live build.
+            Seven clients, seven different problems — pick one to explore the build.
           </p>
         </div>
 

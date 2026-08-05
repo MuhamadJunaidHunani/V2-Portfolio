@@ -16,10 +16,10 @@ const itemVariants = {
 
 const Hero = () => {
   return (
-    <div className="relative w-full min-h-screen bg-[#0d0d0d] pt-36 pb-20 md:pt-36 flex items-center overflow-hidden">
-      <div className="absolute top-[-120px] left-[8%] w-[340px] h-[340px] bg-accent opacity-30 blur-[150px] rounded-full"></div>
-      <div className="absolute top-[80px] right-[6%] w-[300px] h-[300px] bg-accent opacity-25 blur-[150px] rounded-full"></div>
-      <div className="absolute bottom-[-140px] left-1/2 -translate-x-1/2 w-[520px] h-[300px] bg-accent opacity-20 blur-[170px] rounded-full"></div>
+    <div className="relative bgHero w-full min-h-screen  pt-36 pb-20 md:pt-36 flex items-center overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] bg-white opacity-100 blur-[40px] rounded-full"></div>
+      {/* <div className="absolute top-[80px] right-[6%] w-[300px] h-[300px] bg-accent opacity-20 blur-[150px] rounded-full"></div> */}
+      {/* <div className="absolute bottom-[-140px] left-1/2 -translate-x-1/2 w-[520px] h-[300px] bg-accent opacity-15 blur-[170px] rounded-full"></div> */}
 
       <motion.div
         variants={containerVariants}
@@ -29,14 +29,14 @@ const Hero = () => {
       >
         <motion.div
           variants={itemVariants}
-          className="flex items-center gap-1.5 text-sm py-1.5 bg-white/10 rounded-full px-4 border border-white/15 text-white/80"
+          className="flex items-center gap-1.5 text-sm py-1.5 bg-white rounded-full px-4 border border-gray-200 text-gray-600"
         >
           <img src="/linkedin.png" alt="linkedin" className="w-[18px]" />
           Trusted by 2k+ on LinkedIn
         </motion.div>
 
         <motion.h1 variants={itemVariants} className="max-w-[1000px]">
-          <span className="text-[38px]/[46px] sm:text-[52px]/[60px] md:text-[62px]/[70px] font-bold text-white">
+          <span className="text-[38px]/[46px] sm:text-[52px]/[60px] md:text-[62px]/[70px] font-bold text-gray-900">
             Turn your Software & Funnels{" "}
           </span>
           <span className="text-[38px]/[46px] sm:text-[52px]/[60px] md:text-[62px]/[70px] font-bold text-accent">
@@ -44,7 +44,7 @@ const Hero = () => {
           </span>
         </motion.h1>
 
-        <motion.p variants={itemVariants} className="text-lg text-white/60 max-w-[800px]">
+        <motion.p variants={itemVariants} className="text-lg text-gray-600 max-w-[800px]">
           I help businesses and entrepreneurs leverage the power of AI to automate their software and funnels, saving them time and money while increasing efficiency and profitability.
         </motion.p>
 
@@ -64,13 +64,13 @@ const Hero = () => {
           </button>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="flex items-center gap-4 text-sm text-white/50">
+        <motion.div variants={itemVariants} className="flex items-center gap-4 text-sm text-gray-500">
           <span>
-            <strong className="text-white font-bold">12+</strong> Projects Delivered
+            <strong className="text-gray-900 font-bold">12+</strong> Projects Delivered
           </span>
-          <span className="w-1 h-1 rounded-full bg-white/20"></span>
+          <span className="w-1 h-1 rounded-full bg-gray-300"></span>
           <span>
-            <strong className="text-white font-bold">90%</strong> Success Rate
+            <strong className="text-gray-900 font-bold">90%</strong> Success Rate
           </span>
         </motion.div>
 

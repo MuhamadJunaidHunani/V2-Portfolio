@@ -4,6 +4,7 @@ import About from "./Components/Sections/About";
 import Services from "./Components/Sections/Services";
 import TechStack from "./Components/Sections/TechStack";
 import Hero from "./Components/Sections/Hero";
+import HeroShowcase from "./Components/Sections/HeroShowcase";
 import Projects from "./Components/Sections/Projects";
 import Stats from "./Components/Sections/Stats";
 import Process from "./Components/Sections/Process";
@@ -21,6 +22,7 @@ function App() {
 
           <div className="HeroBgGrid top-0 left-0 absolute w-full h-screen"></div>
           <Hero />
+          <HeroShowcase />
 
           <About />
           <Services />

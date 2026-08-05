@@ -19,7 +19,7 @@ const fadeUp = {
 
 const About = () => {
   return (
-    <section id="about" className="relative bg-white py-24 md:py-28 overflow-hidden">
+    <section id="about" className="relative bgHero bg-white py-24 md:py-20 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         <div className="grid md:grid-cols-[0.85fr_1.15fr] gap-12 md:gap-16 items-center">
 
@@ -30,12 +30,11 @@ const About = () => {
             viewport={{ once: true, amount: 0.4 }}
             variants={fadeUp}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative w-full max-w-[380px] mx-auto md:mx-0"
+            className="relative w-full max-w-[420px] mx-auto md:mx-0"
           >
-            <div className="absolute -top-10 -left-10 w-[220px] h-[220px] bg-accent/30 blur-[100px] rounded-full"></div>
 
-            <div className="relative rounded-[28px] border border-gray-200 bg-gradient-to-b from-gray-50 to-white p-3 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
-              <div className="HeroBgGrid absolute inset-0 rounded-[28px]"></div>
+            <div className="relative rounded-[28px] border border-gray-200 bg-white p-3 ">
+              <div className=" absolute inset-0 rounded-[28px]"></div>
 
               <div className="relative rounded-[22px] overflow-hidden aspect-[4/5]">
                 <img

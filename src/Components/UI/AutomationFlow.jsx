@@ -38,19 +38,19 @@ const Node = ({ step, index }) => (
         className={`relative flex items-center justify-center w-16 h-16 rounded-2xl text-2xl ${
           step.core
             ? "bg-linear-to-b from-accent to-accent/60 text-white shadow-[0_10px_30px_rgba(183,68,216,0.35)]"
-            : "bg-[#2b272d] border border-white/10 text-accent/80"
+            : "bg-[#F6DDF0] text-accent"
         }`}
       >
         <step.icon />
       </span>
-      <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#0d0d0d] border border-white/10 text-[10px] font-semibold text-white/40 flex items-center justify-center z-20">
+      <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-white border border-gray-200 text-[10px] font-semibold text-gray-400 flex items-center justify-center z-20">
         {String(index + 1).padStart(2, "0")}
       </span>
     </div>
 
     <div>
-      <p className="text-[14px] font-semibold text-white/90">{step.title}</p>
-      <p className="text-[12.5px] text-white/40 mt-1 max-w-[160px] mx-auto">{step.desc}</p>
+      <p className="text-[14px] font-semibold text-gray-900">{step.title}</p>
+      <p className="text-[12.5px] text-gray-500 mt-1 max-w-[160px] mx-auto">{step.desc}</p>
     </div>
   </div>
 );
@@ -92,7 +92,7 @@ const AutomationFlow = () => (
         <div key={step.title} className="flex flex-col items-center w-full">
           <Node step={step} index={i} />
           {i < steps.length - 1 && (
-            <div className="relative w-px h-10 bg-white/10 my-1">
+            <div className="relative w-px h-10 bg-gray-200 my-1">
               <VerticalComet delay={i * 0.35} />
             </div>
           )}
@@ -102,7 +102,7 @@ const AutomationFlow = () => (
 
     {/* Desktop: straight horizontal line pinned exactly to icon-center height (32px = half of the 64px icon) */}
     <div className="hidden md:grid grid-cols-3 relative">
-      <div className="absolute left-[16.6667%] right-[16.6667%] h-px bg-white/10" style={{ top: "32px" }}>
+      <div className="absolute left-[16.6667%] right-[16.6667%] h-px bg-gray-200" style={{ top: "32px" }}>
         <HorizontalComet delay={0} />
         <HorizontalComet delay={1.2} />
       </div>

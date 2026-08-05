@@ -32,20 +32,20 @@ const Header = () => {
     return (
         <header className="h-[65px] fixed top-[20px] w-full z-50 flex justify-center px-4">
 
-            <div className="transition-all duration-500 rounded-xl  backdrop-blur-md text-white w-full max-w-[1100px] shadow-[0_2px_20px_rgba(0,0,0,0.04)]">
+            <div className="transition-all duration-500 rounded-xl bg-white border border-border  backdrop-blur-md text-balck w-full max-w-[1150px] hadow-[0_2px_20px_rgba(0,0,0,0.04)]">
 
                 <div className="mx-auto px-4 h-[65px] flex justify-between items-center">
 
                     <a href="#top" onClick={(e) => handleNavClick(e, "#top")} className="flex items-center gap-2 shrink-0">
                         <img src={Profileimage} alt="Junaid Hunani" className="rounded-full w-[42px] h-[42px] object-cover border border-gray-300" />
 
-                        <div className="hidden sm:flex flex-col text-left gap-0.5">
+                        <div className="flex flex-col text-left gap-0.5">
                             <p className="font-semibold text-[15px] leading-[16px]">Junaid Hunani</p>
                             <p className="text-xs leading-[12px] text-gray-500">AI Software Developer</p>
                         </div>
                     </a>
 
-                    <nav className="hidden md:flex items-center gap-6 text-[14.5px] text-gray-300">
+                    <nav className="hidden md:flex items-center gap-6 text-[14.5px] text-primary/80">
                         {navLinks.map((link) => (
                             <a
                                 key={link.id}
