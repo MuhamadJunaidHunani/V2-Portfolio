@@ -27,7 +27,7 @@ const services = [
       "Connects the tools you already use (CRM, email, sheets)",
       "Built with n8n, OpenAI, or custom scripts",
       "Error handling & monitoring included",
-      "Documented so your team isn&rsquo;t dependent on me",
+      "Documented so your team isn't dependent on me",
     ],
   },
   {
@@ -45,11 +45,27 @@ const services = [
   },
 ];
 
+const PanelBackdrop = ({ active }) => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <motion.div
+      animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.7 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-white/20 blur-3xl"
+    />
+    <motion.div
+      animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.7 }}
+      transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+      className="absolute -bottom-28 -left-16 w-64 h-64 rounded-full bg-purple-900/30 blur-3xl"
+    />
+  </div>
+);
+
 const Services = () => {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [active, setActive] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(0);
 
   return (
-    <section id="services" className="relative bg-gray-50/60 py-24 md:py-28">
+    <section id="services" className="relative bg-gray-50/60 py-24 md:py-28 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-10 flex flex-col gap-12">
 
         <div className="flex flex-col items-center text-center gap-5">
@@ -58,35 +74,129 @@ const Services = () => {
             Experienced in a wide <span className="text-accent">range of services</span>
           </h2>
           <p className="text-[17px]/[28px] text-gray-600 max-w-xl">
-            One developer, three specialties — so every part of your product speaks the same language.
+            One developer, three specialties. Click a panel to open it up.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* desktop: expanding panels */}
+        <div className="hidden md:flex gap-4 h-[520px]">
           {services.map((service, index) => {
-            const isOpen = openIndex === index;
+            const isActive = active === index;
+            return (
+              <motion.div
+                key={service.name}
+                onClick={() => setActive(index)}
+                onMouseEnter={() => setActive(index)}
+                animate={{ flexGrow: isActive ? 3.6 : 1 }}
+                transition={{ type: "spring", stiffness: 210, damping: 28 }}
+                className={`relative flex-1 basis-0 min-w-0 rounded-[28px] overflow-hidden cursor-pointer transition-colors duration-500 ${
+                  isActive
+                    ? "bg-gradient-to-br from-accent via-[#9333ea] to-[#5b21b6] text-white"
+                    : "bg-white border border-gray-200 text-gray-900"
+                }`}
+              >
+                <PanelBackdrop active={isActive} />
+
+                <span
+                  className={`absolute top-6 right-7 font-black leading-none select-none transition-colors duration-500 ${
+                    isActive ? "text-white/10 text-[110px]" : "text-gray-900/[0.04] text-[90px]"
+                  }`}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div className="relative h-full flex flex-col p-7">
+                  <span
+                    className={`flex items-center justify-center w-12 h-12 rounded-2xl text-2xl shrink-0 transition-colors duration-500 ${
+                      isActive ? "bg-white/15 text-white" : "bg-accent/10 text-accent"
+                    }`}
+                  >
+                    <service.icon />
+                  </span>
+
+                  <AnimatePresence mode="wait">
+                    {isActive ? (
+                      <motion.div
+                        key="open"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.35, delay: 0.1 }}
+                        className="flex flex-col gap-4 mt-auto"
+                      >
+                        <span className="w-max text-[12px] font-semibold text-white bg-white/15 px-2.5 py-1 rounded-md">
+                          {service.stat}
+                        </span>
+                        <h3 className="font-bold text-2xl leading-snug">{service.headline}</h3>
+                        <p className="text-[14.5px]/[23px] text-white/80 max-w-sm">{service.description}</p>
+                        <ul className="flex flex-col gap-2 pt-3 border-t border-white/15">
+                          {service.included.map((item) => (
+                            <li key={item} className="flex items-start gap-2 text-[13.5px]/[20px] text-white/85">
+                              <HiCheck className="text-white text-base shrink-0 mt-0.5" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="closed"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="mt-auto flex items-center gap-3"
+                      >
+                        <span
+                          className="font-bold text-lg text-gray-900 whitespace-nowrap"
+                          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+                        >
+                          {service.name}
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* mobile: vertical accordion */}
+        <div className="md:hidden flex flex-col gap-4">
+          {services.map((service, index) => {
+            const isOpen = mobileOpen === index;
             return (
               <div
                 key={service.name}
-                className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition-shadow duration-300"
+                className={`relative rounded-[24px] overflow-hidden transition-colors duration-500 ${
+                  isOpen
+                    ? "bg-gradient-to-br from-accent via-[#9333ea] to-[#5b21b6] text-white"
+                    : "bg-white border border-gray-200 text-gray-900"
+                }`}
               >
-                <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-accent/10 text-accent text-2xl mb-5">
-                  <service.icon />
+                <PanelBackdrop active={isOpen} />
+                <span
+                  className={`absolute top-4 right-5 font-black leading-none select-none text-[70px] transition-colors duration-500 ${
+                    isOpen ? "text-white/10" : "text-gray-900/[0.04]"
+                  }`}
+                >
+                  {String(index + 1).padStart(2, "0")}
                 </span>
-
-                <span className="w-max text-[12px] font-semibold text-accent bg-accent/10 px-2.5 py-1 rounded-md mb-3">
-                  {service.stat}
-                </span>
-
-                <h3 className="font-bold text-xl text-gray-900 leading-snug mb-2">{service.headline}</h3>
-                <p className="text-[14.5px]/[23px] text-gray-600 mb-4">{service.description}</p>
 
                 <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="mt-auto flex items-center justify-between gap-2 text-[14px] font-semibold text-gray-900 border-t border-gray-100 pt-4 cursor-pointer"
+                  onClick={() => setMobileOpen(isOpen ? null : index)}
+                  className="relative w-full flex items-center gap-3 p-6 text-left"
                 >
-                  What&rsquo;s included
-                  <HiChevronDown className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  <span
+                    className={`flex items-center justify-center w-11 h-11 rounded-2xl text-xl shrink-0 transition-colors duration-500 ${
+                      isOpen ? "bg-white/15 text-white" : "bg-accent/10 text-accent"
+                    }`}
+                  >
+                    <service.icon />
+                  </span>
+                  <span className="font-bold text-lg flex-1">{service.name}</span>
+                  <HiChevronDown className={`shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""} ${isOpen ? "text-white" : "text-gray-400"}`} />
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -96,16 +206,23 @@ const Services = () => {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden"
+                      className="relative overflow-hidden"
                     >
-                      <ul className="flex flex-col gap-2.5 pt-4">
-                        {service.included.map((item) => (
-                          <li key={item} className="flex items-start gap-2 text-[13.5px]/[20px] text-gray-600">
-                            <HiCheck className="text-accent text-base shrink-0 mt-0.5" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="flex flex-col gap-4 px-6 pb-6">
+                        <span className="w-max text-[12px] font-semibold text-white bg-white/15 px-2.5 py-1 rounded-md">
+                          {service.stat}
+                        </span>
+                        <h3 className="font-bold text-xl leading-snug">{service.headline}</h3>
+                        <p className="text-[14.5px]/[23px] text-white/80">{service.description}</p>
+                        <ul className="flex flex-col gap-2 pt-3 border-t border-white/15">
+                          {service.included.map((item) => (
+                            <li key={item} className="flex items-start gap-2 text-[13.5px]/[20px] text-white/85">
+                              <HiCheck className="text-white text-base shrink-0 mt-0.5" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -36,21 +36,21 @@ const About = () => {
             <div className="relative rounded-[28px] border border-gray-200 bg-white p-3 ">
               <div className=" absolute inset-0 rounded-[28px]"></div>
 
-              <div className="relative rounded-[22px] overflow-hidden aspect-[4/5]">
+              <div className="relative rounded-[22px] overflow-hidden aspect-[4/4]">
                 <img
                   src={ProfileImage}
                   alt="Junaid Hunani — AI Software Developer"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                {/* <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div> */}
 
-                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 bg-white/95 backdrop-blur rounded-full px-3.5 py-2 border border-white/60 shadow-sm w-max">
+                {/* <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 bg-white/95 backdrop-blur rounded-full px-3.5 py-2 border border-white/60 shadow-sm w-max">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
                   </span>
                   <span className="text-[13px] font-semibold text-gray-800">Available for new projects</span>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -74,9 +74,9 @@ const About = () => {
             viewport={{ once: true, amount: 0.4 }}
             variants={fadeUp}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-5"
           >
-            <SectionLabel>About Me</SectionLabel>
+            {/* <SectionLabel>About Me</SectionLabel> */}
 
             <h2 className="text-[32px]/[40px] md:text-[42px]/[50px] font-bold text-gray-900 max-w-xl">
               The developer behind the screen, <span className="text-accent">not an agency.</span>
