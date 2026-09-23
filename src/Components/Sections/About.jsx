@@ -67,7 +67,6 @@ const About = () => {
             </div> */}
           </motion.div>
 
-          {/* Text content */}
           <motion.div
             initial="hidden"
             whileInView="show"
